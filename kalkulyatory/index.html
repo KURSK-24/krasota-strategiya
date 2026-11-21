@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Калькуляторы KRASOTA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap">
+<style>
+/* Layout: телефон-первым, одна колонка, вкладки «Мастеру» / «Для себя». Фирменная светлая тема KRASOTA */
+:root{
+  --pink:#b51376; --pink-deep:#8f0d5c; --blush:#fbf4f8; --blush-2:#fee8f3; --rose:#fcd5e8;
+  --lime:#c6f600; --ink:#111111; --muted:#5e4b57; --white:#ffffff;
+  --display:"Playfair Display",Georgia,serif; --body:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+body{background:var(--blush);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.5}
+.wrap{max-width:560px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.top img{height:40px;width:auto}
+.proto{font-size:11.5px;font-weight:700;background:var(--ink);color:var(--lime);border-radius:999px;padding:4px 10px;letter-spacing:.04em}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--white);border-radius:999px;padding:5px;gap:4px}
+.tabs button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:11px 8px;background:transparent;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--pink);color:var(--white)}
+.tabs button:focus-visible,.chip:focus-visible,.cta:focus-visible,input:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+.hero{background:var(--pink);color:var(--white);border-radius:24px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.hero h1{margin:0;font-family:var(--display);font-size:clamp(25px,6.5vw,32px);line-height:1.12;text-wrap:balance}
+.hero p{margin:0;opacity:.95}
+.hero .pill{align-self:flex-start;background:var(--lime);color:var(--ink);font-weight:700;font-size:12.5px;border-radius:999px;padding:4px 11px}
+.card{background:var(--white);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:16px}
+.q{display:flex;flex-direction:column;gap:8px}
+.q label,.q .lb{font-weight:700;font-size:14.5px}
+.q .hint{font-size:12.5px;color:var(--muted);margin-top:-4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:14px;border:2px solid var(--rose);background:var(--white);border-radius:999px;padding:7px 13px;cursor:pointer;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--pink);border-color:var(--pink);color:var(--white)}
+.range{display:grid;grid-template-columns:1fr 96px;gap:12px;align-items:center}
+input[type=range]{width:100%;accent-color:var(--pink)}
+input[type=number]{font:inherit;font-weight:700;width:100%;border:2px solid var(--rose);border-radius:12px;padding:8px 10px;text-align:right;color:var(--ink);background:var(--white);font-variant-numeric:tabular-nums}
+.res{background:var(--ink);color:var(--white);border-radius:24px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.res .big{font-size:clamp(30px,9vw,42px);font-weight:800;color:var(--lime);line-height:1.05;font-variant-numeric:tabular-nums}
+.res .lbl{font-size:13.5px;opacity:.85}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:rgba(255,255,255,.08);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tile b{font-size:20px;font-variant-numeric:tabular-nums}
+.tile span{font-size:12.5px;opacity:.85}
+.tip{background:var(--blush-2);color:var(--ink);border-radius:16px;padding:12px 14px;font-size:14px}
+.tip b{color:var(--pink)}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:118px 1fr 86px;gap:8px;align-items:center;font-size:13px}
+.bar .tr{height:14px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden}
+.bar .fl{display:block;height:100%;background:var(--pink);border-radius:999px;transition:width .3s}
+.bar .fl.goods{background:var(--lime)}
+.bar .v{text-align:right;font-variant-numeric:tabular-nums}
+.sav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sv{border-radius:14px;padding:10px;text-align:center;background:rgba(255,255,255,.08)}
+.sv.max{background:var(--lime);color:var(--ink)}
+.sv small{display:block;font-size:11.5px;opacity:.85}
+.sv b{font-size:17px;font-variant-numeric:tabular-nums}
+.type{display:flex;gap:12px;align-items:center;background:var(--pink);border-radius:16px;padding:12px 14px}
+.type .em{font-family:var(--display);font-size:22px;font-weight:800}
+.cta{font:inherit;font-weight:800;font-size:16px;border:0;border-radius:999px;padding:15px 18px;background:var(--lime);color:var(--ink);cursor:pointer;text-align:center}
+.note{font-size:12px;color:var(--muted)}
+.res .note{color:rgba(255,255,255,.7)}
+.toast{font-size:13px;background:var(--white);color:var(--ink);border-radius:12px;padding:10px 12px}
+@media (prefers-reduced-motion:reduce){.bar .fl{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top"><img src="../assets/logo.png" alt="KRASOTA маркет"><span class="proto">ПРОТОТИП</span></div>
+
+  <div class="tabs" role="tablist">
+    <button id="t-master" role="tab" aria-selected="true" data-tab="master">Я мастер</button>
+    <button id="t-client" role="tab" aria-selected="false" data-tab="client">Я для себя</button>
+  </div>
+
+  <!-- МАСТЕР -->
+  <div id="v-master" style="display:flex;flex-direction:column;gap:18px">
+    <div class="hero">
+      <span class="pill">для мастеров и специалистов</span>
+      <h1>Сколько денег уходит в ваши пустые окна</h1>
+      <p>Четыре вопроса, и вы увидите, сколько теряете за месяц и год и за сколько клиентов окупится витрина в KRASOTA</p>
+    </div>
+    <div class="card">
+      <div class="q"><span class="lb">Кто вы</span>
+        <div class="chips" id="m-spec">
+          <button class="chip" aria-pressed="true" data-v="маникюр">Маникюр</button>
+          <button class="chip" aria-pressed="false" data-v="брови и ресницы">Брови и ресницы</button>
+          <button class="chip" aria-pressed="false" data-v="косметология">Косметолог</button>
+          <button class="chip" aria-pressed="false" data-v="визаж">Визажист</button>
+          <button class="chip" aria-pressed="false" data-v="волосы">Волосы</button>
+          <button class="chip" aria-pressed="false" data-v="массаж">Массаж</button>
+          <button class="chip" aria-pressed="false" data-v="другое">Другое</button>
+        </div>
+      </div>
+      <div class="q"><label for="m-check">Средний чек, ₽</label>
+        <div class="range"><input type="range" id="m-check-r" min="500" max="20000" step="100" value="2500" aria-label="Средний чек"><input type="number" id="m-check" min="0" step="100" value="2500"></div>
+      </div>
+      <div class="q"><label for="m-clients">Клиентов в неделю сейчас</label>
+        <div class="range"><input type="range" id="m-clients-r" min="0" max="60" step="1" value="15" aria-label="Клиентов в неделю"><input type="number" id="m-clients" min="0" step="1" value="15"></div>
+      </div>
+      <div class="q"><label for="m-empty">Пустых окон в неделю</label>
+        <span class="hint">время, когда могли бы работать, но записи нет</span>
+        <div class="range"><input type="range" id="m-empty-r" min="0" max="40" step="1" value="6" aria-label="Пустых окон"><input type="number" id="m-empty" min="0" step="1" value="6"></div>
+      </div>
+      <div class="q"><span class="lb">Откуда сейчас приходят клиенты</span>
+        <div class="chips" id="m-src">
+          <button class="chip" aria-pressed="true" data-v="sar">Сарафан</button>
+          <button class="chip" aria-pressed="false" data-v="ig">Instagram</button>
+          <button class="chip" aria-pressed="false" data-v="agg">Авито и агрегаторы</button>
+          <button class="chip" aria-pressed="false" data-v="ads">Платная реклама</button>
+        </div>
+      </div>
+      <div class="q"><label for="m-ads">Тратите на рекламу в месяц, ₽</label>
+        <div class="range"><input type="range" id="m-ads-r" min="0" max="50000" step="500" value="0" aria-label="Реклама в месяц"><input type="number" id="m-ads" min="0" step="500" value="0"></div>
+      </div>
+    </div>
+
+    <div class="res" aria-live="polite">
+      <span class="lbl">Пустые окна стоят вам за год</span>
+      <span class="big" id="r-year">0 ₽</span>
+      <div class="grid2">
+        <div class="tile"><b id="r-month">0 ₽</b><span>в месяц</span></div>
+        <div class="tile"><b id="r-load">0%</b><span>загрузка вашего графика</span></div>
+        <div class="tile"><b id="r-pay">0</b><span>клиентов за год окупают витрину за 4 500 ₽</span></div>
+        <div class="tile"><b id="r-half">0 ₽</b><span>в месяц, если заполнить половину окон</span></div>
+      </div>
+      <div class="tip" id="r-tip"></div>
+      <button class="cta" data-cta="master">Разместить мои услуги в KRASOTA</button>
+      <div class="toast" id="toast-master" hidden>В готовой версии кнопка открывает бота: человек получает расчёт в Telegram и попадает в прогрев к тарифу</div>
+      <span class="note">Расчёт только по вашим цифрам: окна × средний чек × 4,33 недели. Витрина - тариф «Услуги» на 12 месяцев по цене акции с сайта</span>
+    </div>
+  </div>
+
+  <!-- ПОКУПАТЕЛЬНИЦА -->
+  <div id="v-client" hidden style="display:flex;flex-direction:column;gap:18px">
+    <div class="hero">
+      <span class="pill">для себя</span>
+      <h1>Сколько стоит ваша красота за год</h1>
+      <p>Отметьте, сколько тратите в месяц, и посмотрите, сколько можно оставить себе со скидками в приложении</p>
+    </div>
+    <div class="card" id="c-form"></div>
+    <div class="res" aria-live="polite">
+      <span class="lbl">Ваша красота за год</span>
+      <span class="big" id="c-year">0 ₽</span>
+      <div class="type"><span class="em" id="c-type">Уходовая</span><span id="c-type-t" style="font-size:13.5px"></span></div>
+      <div class="bars" id="c-bars"></div>
+      <span class="lbl">Можно оставить себе за год на косметике</span>
+      <div class="sav">
+        <div class="sv"><small>скидка 10%</small><b id="s10">0 ₽</b></div>
+        <div class="sv"><small>скидка 20%</small><b id="s20">0 ₽</b></div>
+        <div class="sv max"><small>до 40%</small><b id="s40">0 ₽</b></div>
+      </div>
+      <button class="cta" data-cta="client">Забрать подборку со скидками</button>
+      <div class="toast" id="toast-client" hidden>В готовой версии кнопка ведёт на регистрацию в приложении и в Telegram с подборкой под ваш бьюти-тип</div>
+      <span class="note">Скидки считаются только на косметику (зелёные полосы), не на услуги мастеров. «До 40%» - максимальная скидка, указанная на сайте KRASOTA</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var fmt=function(n){return Math.round(n).toLocaleString('ru-RU')+' ₽'};
+  var $=function(id){return document.getElementById(id)};
+  // вкладки
+  function show(tab){
+    var m=tab!=='client';
+    $('v-master').hidden=!m; $('v-client').hidden=m;
+    $('t-master').setAttribute('aria-selected',m); $('t-client').setAttribute('aria-selected',!m);
+  }
+  document.querySelectorAll('.tabs button').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.tab); try{history.replaceState(null,'','#'+b.dataset.tab)}catch(e){}})});
+  show(location.hash==='#client'?'client':'master');
+  window.addEventListener('hashchange',function(){show(location.hash==='#client'?'client':'master')});
+  // связка range + number
+  function link(id,cb){
+    var r=$(id+'-r'), n=$(id);
+    r.addEventListener('input',function(){n.value=r.value;cb()});
+    n.addEventListener('input',function(){var v=Math.max(0,+n.value||0); if(v<=+r.max) r.value=v; cb()});
+  }
+  // чипы
+  function chips(id,single,cb){
+    $(id).querySelectorAll('.chip').forEach(function(c){c.addEventListener('click',function(){
+      if(single){$(id).querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed','false')}); c.setAttribute('aria-pressed','true')}
+      else c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')==='true'?'false':'true');
+      cb();
+    })});
+  }
+  function picked(id){return Array.prototype.map.call($(id).querySelectorAll('.chip[aria-pressed="true"]'),function(c){return c.dataset.v})}
+
+  // МАСТЕР
+  function calcM(){
+    var check=Math.max(0,+$('m-check').value||0), cl=Math.max(0,+$('m-clients').value||0),
+        em=Math.max(0,+$('m-empty').value||0), ads=Math.max(0,+$('m-ads').value||0);
+    var month=em*check*4.33, year=em*check*52;
+    $('r-year').textContent=fmt(year); $('r-month').textContent=fmt(month);
+    $('r-load').textContent=(cl+em>0?Math.round(cl/(cl+em)*100):0)+'%';
+    $('r-pay').textContent=check>0?Math.ceil(4500/check):'-';
+    $('r-half').textContent='+'+fmt(month/2);
+    var src=picked('m-src'), spec=picked('m-spec')[0]||'ваша сфера', tip;
+    if(ads>0){tip='Реклама обходится вам в <b>'+fmt(ads*12)+'</b> за год и кончается вместе с бюджетом. Витрина на год стоит 4 500 ₽ и работает, пока вы размещены'}
+    else if(src.length===1&&src[0]==='sar'){tip='Все клиенты сейчас по сарафану. Сарафан зависит от того, кто и когда вас порекомендует. Витрина даёт <b>второй источник</b>: клиентки, которые ищут '+spec+' рядом с домом'}
+    else if(src.indexOf('agg')>-1){tip='На крупных агрегаторах вы стоите в одном ряду с тысячами мастеров. В KRASOTA вас видят женщины, которые пришли за красотой и сообществом, а <b>мест в каждой нише ограниченное число</b>'}
+    else {tip='Пустых окон <b>'+em+'</b> в неделю. Даже одно заполненное окно в неделю - это <b>'+fmt(check*52)+'</b> за год'}
+    $('r-tip').innerHTML=tip;
+  }
+  ['m-check','m-clients','m-empty','m-ads'].forEach(function(id){link(id,calcM)});
+  chips('m-spec',true,calcM); chips('m-src',false,calcM);
+  calcM();
+
+  // ПОКУПАТЕЛЬНИЦА
+  var cats=[
+    {id:'care',name:'Уход за лицом',goods:true,v:3000,max:20000},
+    {id:'deco',name:'Декоративная косметика',goods:true,v:2000,max:15000},
+    {id:'body',name:'Волосы и тело',goods:true,v:1500,max:15000},
+    {id:'mast',name:'Мастера: ногти, брови, волосы',goods:false,v:5000,max:30000},
+    {id:'cosm',name:'Косметолог',goods:false,v:0,max:30000},
+    {id:'sport',name:'Тренировки и практики',goods:false,v:0,max:20000}
+  ];
+  var types={care:['Уходовая','кожа на первом месте: вам подойдут подборки ухода и эфиры косметологов'],deco:['Визажная','любите образы: вам подойдут новинки декора и мастер-классы по макияжу'],body:['Уход с головы до ног','вам подойдут подборки для волос и тела'],mast:['Салонная','доверяете мастерам: вам подойдут проверенные мастера рядом с отзывами'],cosm:['Процедурная','вам подойдут косметологи с рейтингом и эфиры о процедурах'],sport:['Энергия и тело','вам подойдут онлайн-тренировки и практики в приложении']};
+  var form=$('c-form');
+  cats.forEach(function(c){
+    var q=document.createElement('div'); q.className='q';
+    q.innerHTML='<label for="c-'+c.id+'">'+c.name+', ₽ в месяц</label><div class="range"><input type="range" id="c-'+c.id+'-r" min="0" max="'+c.max+'" step="500" value="'+c.v+'" aria-label="'+c.name+'"><input type="number" id="c-'+c.id+'" min="0" step="500" value="'+c.v+'"></div>';
+    form.appendChild(q);
+  });
+  function calcC(){
+    var tot=0, goods=0, vals={}, top='care', topv=-1;
+    cats.forEach(function(c){var v=Math.max(0,+$('c-'+c.id).value||0)*12; vals[c.id]=v; tot+=v; if(c.goods) goods+=v; if(v>topv){topv=v;top=c.id}});
+    $('c-year').textContent=fmt(tot);
+    $('c-type').textContent=types[top][0]; $('c-type-t').textContent=types[top][1];
+    var bars=$('c-bars'); bars.innerHTML='';
+    cats.forEach(function(c){
+      var w=tot>0?vals[c.id]/tot*100:0;
+      var b=document.createElement('div'); b.className='bar';
+      b.innerHTML='<span>'+c.name.split(':')[0]+'</span><span class="tr"><span class="fl'+(c.goods?' goods':'')+'" style="width:'+w+'%"></span></span><span class="v">'+fmt(vals[c.id])+'</span>';
+      bars.appendChild(b);
+    });
+    $('s10').textContent=fmt(goods*.1); $('s20').textContent=fmt(goods*.2); $('s40').textContent=fmt(goods*.4);
+  }
+  cats.forEach(function(c){link('c-'+c.id,calcC)});
+  calcC();
+
+  document.querySelectorAll('.cta').forEach(function(b){b.addEventListener('click',function(){var t=$('toast-'+b.dataset.cta); t.hidden=false})});
+})();
+</script>
+</body>
+</html>
