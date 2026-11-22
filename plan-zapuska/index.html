@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>План запуска KRASOTA маркет</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap">
+<style>
+/* Layout: фирменный стиль KRASOTA маркет, как у стратегии 21.11 (малиновый, розовый, салатовый, чёрный).
+   Одна светлая тема сознательно. Документ-план: Гант и контент-план по дням - главные таблицы */
+:root{
+  --pink:#b51376; --pink-deep:#8f0d5c; --blush:#fbf4f8; --blush-2:#fee8f3; --rose:#fcd5e8;
+  --lime:#c6f600; --lime-soft:#effcc0; --ink:#111111; --muted:#5e4b57; --line:#f1d9e6; --white:#ffffff;
+  --display:"Playfair Display",Georgia,"Times New Roman",serif;
+  --body:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+body{background:var(--blush);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding-block:0 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.15}
+h2{font-weight:800;font-size:clamp(22px,3.4vw,32px);letter-spacing:-.01em}
+h3{font-weight:700;font-size:16px}
+p{margin:0}
+ul{margin:0}
+section{display:flex;flex-direction:column;gap:18px}
+.kicker{display:inline-flex;align-self:flex-start;background:var(--lime);color:var(--ink);font-weight:700;font-size:13px;padding:5px 14px;border-radius:999px}
+.sub{color:var(--muted);max-width:70ch}
+.cap{font-size:12.5px;color:var(--muted)}
+.insight{background:var(--ink);color:var(--white);border-radius:18px;padding:16px 20px;display:flex;gap:14px;align-items:flex-start}
+.insight b{color:var(--lime)}
+.insight .ic{flex:none;width:30px;height:30px;border-radius:50%;background:var(--lime);color:var(--ink);display:grid;place-items:center;font-weight:800}
+
+.hero{background:var(--pink);color:var(--white);border-radius:0 0 28px 28px;margin-left:calc(-1*max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1*max(16px,env(safe-area-inset-right,0px)));padding:34px max(16px,env(safe-area-inset-right,0px)) 34px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px}
+.hero .logo{background:var(--white);border-radius:16px;padding:10px 14px;align-self:flex-start}
+.hero .logo img{height:46px;width:auto;display:block}
+.hero h1{font-family:var(--display);font-size:clamp(30px,5.4vw,54px);font-weight:800;max-width:20ch}
+.hero .lead{font-size:17px;max-width:62ch}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px}
+.hero .meta span{background:rgba(255,255,255,.16);border-radius:999px;padding:5px 12px;font-size:13px}
+
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.num{background:var(--white);border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.num b{font-size:30px;font-weight:800;color:var(--pink);font-variant-numeric:tabular-nums;line-height:1.1}
+.num span{font-size:13.5px;color:var(--muted)}
+
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:780px){.two{grid-template-columns:1fr}}
+.panel{background:var(--white);border-radius:22px;padding:20px 22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel ul{padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:14px}
+
+/* Концепция */
+.loop{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;align-items:stretch}
+@media (max-width:860px){.loop{grid-template-columns:1fr}}
+.lp{background:var(--white);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;font-size:14px;position:relative}
+.lp .n{font-size:12px;font-weight:800;color:var(--pink);letter-spacing:.06em;text-transform:uppercase}
+.lp.hot{background:var(--ink);color:var(--white)}
+.lp.hot .n{color:var(--lime)}
+.why{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:780px){.why{grid-template-columns:1fr}}
+.wcard{background:var(--white);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.wcard .hd{padding:14px 20px;font-weight:800;font-size:17px;background:var(--pink);color:var(--white)}
+.wcard.b .hd{background:var(--ink);color:var(--lime)}
+.wcard .bd{padding:16px 20px;display:flex;flex-direction:column;gap:10px;font-size:14px}
+.wcard .bd ul{padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.tagline{background:var(--blush-2);border-radius:12px;padding:10px 12px;font-weight:600}
+
+/* Гант */
+.scroll{overflow-x:auto;background:var(--white);border-radius:22px;padding:14px}
+.gantt{border-collapse:separate;border-spacing:0;font-size:12px;min-width:1000px;width:100%}
+.gantt th,.gantt td{padding:0;height:28px;text-align:center;font-variant-numeric:tabular-nums}
+.gantt thead th{font-weight:700;color:var(--muted);font-size:11px;line-height:1.15;padding-bottom:6px}
+.gantt thead th.we{color:var(--pink)}
+.gantt th.row{position:sticky;left:0;background:var(--white);text-align:left;font-weight:600;font-size:12.5px;padding-right:10px;min-width:220px;max-width:240px;z-index:1;line-height:1.25}
+.gantt th.ph{color:var(--white);font-size:11px;font-weight:700;padding:4px 2px;border-radius:6px}
+.gantt td{border-left:1px solid var(--line)}
+.gantt td span{display:block;height:16px;margin:0 1px;border-radius:4px}
+.c-prep span{background:var(--rose)}
+.c-work span{background:var(--pink)}
+.c-live span{background:var(--lime)}
+.c-ms span{background:var(--ink);height:22px;border-radius:50%;width:22px;margin:0 auto;color:var(--lime);font-size:12px;line-height:22px;font-weight:800}
+.c-rep span{background:var(--ink);width:10px;margin:0 auto;border-radius:2px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;align-items:center}
+.legend i{display:inline-block;width:18px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+
+/* Контент-план */
+.cp{border-collapse:separate;border-spacing:0 6px;width:100%;min-width:980px;font-size:13px}
+.cp thead th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:4px 10px}
+.cp td{background:var(--white);padding:10px;vertical-align:top;line-height:1.4}
+.cp td:first-child{border-radius:14px 0 0 14px;white-space:nowrap;font-weight:700;width:70px}
+.cp td:last-child{border-radius:0 14px 14px 0}
+.cp td small{display:block;color:var(--muted);font-weight:500}
+.cp tr.phase td{background:transparent;padding:14px 4px 2px;font-weight:800;color:var(--pink);font-size:14px}
+.cp tr.key td{background:var(--lime-soft)}
+.cp ol{margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px}
+.pill{display:inline-block;background:var(--blush-2);border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700;color:var(--pink-deep);margin-right:4px;white-space:nowrap}
+.pill.k{background:var(--ink);color:var(--lime)}
+.pill.c{background:var(--lime);color:var(--ink)}
+.pill.t{background:var(--lime);color:var(--ink);margin-top:6px}
+.dash{color:var(--muted)}
+
+/* Продакшн */
+.prod{border-collapse:separate;border-spacing:0;width:100%;min-width:760px;font-size:14px;background:var(--white);border-radius:18px;overflow:hidden}
+.prod th,.prod td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.prod th{background:var(--ink);color:var(--white);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.prod td.n{font-weight:800;color:var(--pink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.prod tr:last-child td{border-bottom:0}
+.prod tfoot td{background:var(--blush-2);font-weight:800}
+.fmts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:860px){.fmts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.fmts{grid-template-columns:1fr}}
+.fm{background:var(--white);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;border-top:5px solid var(--pink);font-size:14px}
+.fm.l{border-top-color:var(--lime)}
+.fm .tp{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+
+/* Воронки */
+.flows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:780px){.flows{grid-template-columns:1fr}}
+.flow{background:var(--white);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.fstep{border-radius:14px;padding:10px 14px;background:var(--blush-2);font-size:14px;display:flex;flex-direction:column;gap:2px}
+.fstep small{font-size:12.5px;color:var(--muted)}
+.fstep.new{background:var(--lime)}
+.fstep.new small{color:var(--ink)}
+.fstep.end{background:var(--pink);color:var(--white);font-weight:700}
+.fstep.end small{color:var(--white);font-weight:500}
+.down{text-align:center;color:var(--pink);font-weight:800;line-height:1}
+.chain{display:flex;flex-direction:column;gap:6px;font-size:13.5px;border-top:1px dashed var(--rose);padding-top:10px}
+.chain div{display:grid;grid-template-columns:62px 1fr;gap:8px}
+.chain b{color:var(--pink);font-variant-numeric:tabular-nums}
+
+/* Мероприятия */
+.ev{border-collapse:separate;border-spacing:0;width:100%;min-width:700px;font-size:14px;background:var(--white);border-radius:18px;overflow:hidden}
+.ev th,.ev td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.ev th{background:var(--pink);color:var(--white);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.ev tr:last-child td{border-bottom:0}
+
+/* Цифры */
+.funnel{display:flex;flex-direction:column;gap:8px}
+.fr{display:grid;grid-template-columns:minmax(0,1.4fr) 110px 110px;gap:10px;align-items:center;font-size:14px;background:var(--white);border-radius:14px;padding:10px 14px}
+.fr.h{background:transparent;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;padding:0 14px}
+.fr b{font-variant-numeric:tabular-nums;text-align:right;color:var(--pink);font-size:16px}
+.fr .s{text-align:right}
+.fr small{display:block;color:var(--muted);font-size:12px}
+@media (max-width:520px){.fr{grid-template-columns:minmax(0,1fr) 72px 72px;font-size:13px}}
+
+/* Цена */
+.price{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+@media (max-width:780px){.price{grid-template-columns:1fr}}
+.pbig{background:var(--ink);color:var(--white);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.pbig .p{font-family:var(--display);font-size:clamp(40px,7vw,64px);font-weight:800;color:var(--lime);line-height:1}
+.pbig ul{padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:14px}
+.tiers{display:flex;flex-direction:column;gap:10px}
+.tier{background:var(--white);border-radius:18px;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:14px}
+.tier b{font-size:20px;color:var(--pink);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+.need{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.need{grid-template-columns:1fr}}
+.nd{background:var(--white);border-radius:16px;padding:12px 14px;display:grid;grid-template-columns:28px 1fr;gap:10px;font-size:14px}
+.nd .i{width:26px;height:26px;border-radius:50%;background:var(--pink);color:var(--white);display:grid;place-items:center;font-weight:800;font-size:13px}
+.nd small{display:block;color:var(--muted);font-size:12.5px}
+.src{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+a{color:var(--pink-deep)}
+a:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+</style>
+<style>body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+
+<style>
+/* Модули: у каждого свой цвет полосы и номера, внутри одинаковая схема из пяти блоков */
+.mod{background:var(--white);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;border-left:10px solid var(--c,var(--pink))}
+.mod.m-ink{--c:var(--ink)}
+.mod.m-lime{--c:var(--lime)}
+.mod.m-deep{--c:var(--pink-deep)}
+.mod .mh{display:flex;gap:16px;align-items:center;padding:18px 22px;background:var(--blush-2)}
+.mod .mn{flex:none;width:52px;height:52px;border-radius:16px;background:var(--c,var(--pink));color:var(--white);display:grid;place-items:center;font-weight:800;font-size:22px}
+.mod.m-lime .mn{color:var(--ink)}
+.mod .mh h2{font-size:clamp(20px,3vw,28px)}
+.mod .mh p{color:var(--muted);font-size:14px;margin-top:4px}
+.mod .mb{padding:18px 22px 22px;display:flex;flex-direction:column;gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.grid4{grid-template-columns:1fr}}
+.blk{border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;font-size:14px;background:var(--blush)}
+.blk h4{margin:0;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--pink-deep)}
+.blk ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.blk.proof{background:var(--lime-soft)}
+.blk.proof h4{color:var(--ink)}
+.blk.ask{background:var(--white);border:2px dashed var(--rose)}
+.blk.ask h4{color:var(--muted)}
+.blk.ask li::marker{content:"? ";color:var(--pink);font-weight:800}
+.src-tag{display:inline-block;font-size:11px;background:var(--white);border-radius:999px;padding:1px 8px;color:var(--muted);margin-left:4px}
+.howto{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (max-width:860px){.howto{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.howto{grid-template-columns:1fr}}
+.howto div{background:var(--white);border-radius:14px;padding:12px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:4px}
+.howto b{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--pink-deep)}
+.howto .pr{background:var(--lime-soft)}
+.howto .pr b{color:var(--ink)}
+.howto .q{border:2px dashed var(--rose)}
+.weeks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.weeks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.weeks{grid-template-columns:1fr}}
+.wk{background:var(--blush);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.wk .hd{background:var(--pink);color:var(--white);padding:12px 16px;display:flex;flex-direction:column;gap:2px}
+.wk .hd b{font-size:17px}
+.wk .hd span{font-size:12.5px;opacity:.9}
+.wk.ev .hd{background:var(--ink);color:var(--lime)}
+.wk.ev .hd span{color:var(--white)}
+.wk .bd{padding:14px 16px;display:flex;flex-direction:column;gap:10px;font-size:13.5px}
+.wk .bd h4{margin:0;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.wk .bd ul{margin:0;padding-left:16px;display:flex;flex-direction:column;gap:3px}
+.mix{display:flex;flex-wrap:wrap;gap:4px}
+.gantt.w{min-width:780px}
+.gantt.w td{height:30px}
+.gantt.w thead th{font-size:12px}
+.gantt.w td span{height:20px;margin:0 2px;font-size:11px;line-height:20px;color:var(--ink);font-weight:700;overflow:hidden;white-space:nowrap;padding:0 4px}
+.gantt.w .c-work span{color:var(--white)}
+.gantt.w .c-ms span{width:auto;border-radius:6px;height:20px;line-height:20px;color:var(--lime)}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.steps{grid-template-columns:1fr}}
+.steps div{background:var(--blush);border-radius:14px;padding:12px 14px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+.steps div b{color:var(--pink)}
+.steps .hot{background:var(--ink);color:var(--white)}
+.steps .hot b{color:var(--lime)}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <span class="logo"><img src="../assets/logo.png" alt="KRASOTA маркет"></span>
+  <h1>План запуска KRASOTA маркет</h1>
+  <p class="lead">Запуск к дате эфира-открытия за 5-6 недель: контент с первого дня, три воронки подключаются по одной в неделю и сходятся в эфире. Каждый модуль ниже объясняет, что делаем, зачем, как, почему это сработает и что уточняем вместе с вами</p>
+  <div class="meta"><span>Алла Фролова</span><span>Елена и Роман, маркетинговое агентство</span><span>встреча 23.11.2026</span><span>точный план и даты на 3-й день</span></div>
+</header>
+
+<section>
+  <span class="kicker">Как читать этот план</span>
+  <h2>Девять модулей, в каждом одна схема</h2>
+  <div class="howto">
+    <div><b>Что делаем</b>конкретные действия и объёмы</div>
+    <div><b>Зачем</b>какую задачу запуска это решает</div>
+    <div><b>Как</b>по шагам, кто что делает</div>
+    <div class="pr"><b>Почему сработает</b>ваши цифры, примеры из ниши, кейсы рынка с источником</div>
+    <div class="q"><b>Уточняем внутри</b>что выясняем в первые дни, без этого план не детализируем</div>
+  </div>
+  <div class="insight"><span class="ic">!</span><p>Идеального плана до старта не бывает. Мы фиксируем каркас: цели, объёмы, воронки, сроки. Точные даты, каналы и контент-план по дням собираем <b>на 3-й день</b>, по вашим ответам. Дальше каждую неделю сверяемся с цифрами и перестраиваем то, что работает хуже</p></div>
+</section>
+
+<!-- МОДУЛЬ 1 -->
+<article class="mod">
+  <div class="mh"><span class="mn">1</span><div><h2>Логика запуска: три воронки лесенкой</h2><p>одна новая воронка в неделю, все сходятся в эфире-открытии</p></div></div>
+  <div class="mb">
+    <div class="steps">
+      <div><b>Неделя 1</b>Воронка 1: покупательницы. Лист ожидания и подарок</div>
+      <div><b>Неделя 2</b>Воронка 2: специалисты (мастера и эксперты-преподаватели). Воронка 1 работает сама</div>
+      <div class="hot"><b>Недели 3-5</b>Воронка 3: прогрев на эфир. Регистрация, напоминания, эфир в конце недели 5</div>
+    </div>
+    <div class="grid4">
+      <div class="blk"><h4>Что делаем</h4><ul>
+        <li>каждую неделю запускаем одну новую воронку, запущенные раньше продолжают работать сами</li>
+        <li>все три сходятся в одной точке: эфир-открытие</li>
+        <li>после эфира 7-10 дней дожима</li>
+      </ul></div>
+      <div class="blk"><h4>Зачем</h4><ul>
+        <li>маркетплейс на две стороны работает, когда обе стороны видят друг друга: мастер платит за клиенток, клиентка приходит к мастерам</li>
+        <li>сначала собираем покупательниц, потому что цифра листа ожидания - главный довод для мастера: «в твоём городе тебя уже ждут N женщин»</li>
+      </ul></div>
+      <div class="blk proof"><h4>Почему сработает</h4><ul>
+        <li>Airbnb показывал хозяину жилья его будущий заработок, и это работало примерно в 10 раз сильнее других доводов <span class="src-tag">Lenny Rachitsky, «28 ways to grow supply»</span></li>
+        <li>Robinhood и Monzo собирали лист ожидания с наградой за приглашение друга: около 1 млн и 200 тыс. человек до запуска <span class="src-tag">duostrategyla.com</span></li>
+        <li>у вас уже есть интерес аудитории: в комментариях спрашивают, когда запуск <span class="src-tag">ваш Instagram</span></li>
+      </ul></div>
+      <div class="blk ask"><h4>Уточняем внутри проекта</h4><ul>
+        <li>дата релиза в App Store, по ней ставим дату эфира с запасом</li>
+        <li>сколько мест из «первых 100» уже продано</li>
+        <li>что будет внутри приложения в день эфира: мастера, уроки, скидки</li>
+      </ul></div>
+    </div>
+  </div>
+</article>
+
+<!-- МОДУЛЬ 2 -->
+<article class="mod m-ink">
+  <div class="mh"><span class="mn">2</span><div><h2>Площадки: где выходит контент</h2><p>два Instagram, Telegram, ваша база, пробные ролики</p></div></div>
+  <div class="mb">
+    <div class="scroll" style="padding:0;background:transparent"><table class="prod" style="min-width:720px">
+      <thead><tr><th>Площадка</th><th>Воронка 1: покупательницы</th><th>Воронка 2: специалисты</th><th>Воронка 3: эфир</th></tr></thead>
+      <tbody>
+        <tr><td><b>Instagram №1</b><br><small>@krasotamarket.ru, 7 273</small></td><td>✓ слово ПОДАРОК</td><td>-</td><td>✓ слово ОТКРЫТИЕ</td></tr>
+        <tr><td><b>Instagram №2</b><br><small>@krasota.market.club, 2 291</small></td><td>-</td><td>✓ слово КЛИЕНТЫ</td><td>✓ слово ОТКРЫТИЕ</td></tr>
+        <tr><td><b>Telegram</b><br><small>канал и боты</small></td><td>✓ канал и бот</td><td>✓ канал и бот</td><td>✓ регистрация и напоминания</td></tr>
+        <tr><td><b>Ваша база</b><br><small>рассылки и колл-центр</small></td><td>-</td><td>✓ подарок, «первые 100»</td><td>✓ приглашения и подарки</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid4">
+      <div class="blk"><h4>Что делаем</h4><ul>
+        <li>Instagram №1 говорит с покупательницами, Instagram №2 со специалистами</li>
+        <li>Telegram-канал общий, пост каждый день, боты ведут каждую аудиторию своим путём</li>
+        <li>база получает рассылки, это не посты</li>
+        <li>пробные ролики в обоих Instagram, кросспост в VK и YouTube</li>
+      </ul></div>
+      <div class="blk"><h4>Зачем</h4><ul>
+        <li>у каждой аудитории своё обещание: мастеру нужны клиентки, покупательнице мастер рядом и скидки</li>
+        <li>одно сообщение «про всё приложение» не цепляет никого</li>
+      </ul></div>
+      <div class="blk proof"><h4>Почему сработает</h4><ul>
+        <li>13 из 28 ваших роликов рассказывают о приложении целиком и набирают в среднем 901 просмотр. Ролики про события и женщин - 2 012, в 2,2 раза больше <span class="src-tag">ваш Instagram, 22.07-13.11</span></li>
+        <li>вывод: конкретное обещание конкретному человеку работает лучше рассказа о платформе</li>
+      </ul></div>
+      <div class="blk ask"><h4>Уточняем внутри проекта</h4><ul>
+        <li>какие два Instagram берём: предлагаем официальный и ваше реалити</li>
+        <li>есть ли Telegram-канал, VK, YouTube</li>
+        <li>в каком виде база: телефоны, WhatsApp, Telegram, почта</li>
+      </ul></div>
+    </div>
+  </div>
+</article>
+
+<!-- МОДУЛЬ 3 -->
+<article class="mod">
+  <div class="mh"><span class="mn">3</span><div><h2>Ролики: что за ролики и почему они сработают</h2><p>ленивые ролики с плавным ростом: 1 в день, затем 2, с недели 3 по 3 в день в каждый Instagram</p></div></div>
+  <div class="mb">
+    <div class="grid4">
+      <div class="blk"><h4>Что делаем</h4><ul>
+        <li><b>ленивый ролик:</b> 7-15 секунд, сильный заголовок на экране, атмосферный фон без съёмки, под роликом описание с кодовым словом</li>
+        <li><b>неделя 1:</b> 1 ролик в день в каждый Instagram</li>
+        <li><b>неделя 2:</b> 2 ролика в день в каждый Instagram</li>
+        <li><b>с недели 3:</b> 3 ролика в день в каждый Instagram, 21 в неделю на аккаунт</li>
+        <li><b>пробные ролики с недели 3:</b> 1-2 в день на аккаунт, тот же фон с другим заголовком</li>
+        <li><b>это минимум:</b> объём наращиваем аккуратно, когда видим по цифрам, какие темы работают</li>
+      </ul></div>
+      <div class="blk"><h4>Зачем</h4><ul>
+        <li>охват: чем больше роликов, тем больше людей впервые видят KRASOTA</li>
+        <li>проверка тем: пробные ролики показывают, какие заголовки цепляют, не трогая основную ленту</li>
+        <li>вам ничего не нужно снимать</li>
+      </ul></div>
+      <div class="blk proof"><h4>Почему сработает</h4><ul>
+        <li>сейчас у вас 1,8 публикации в неделю, и типичный ролик уже набирает 951 просмотр. 21 ролик в неделю - это почти в 12 раз чаще. Охват есть, не хватает частоты <span class="src-tag">ваш Instagram</span></li>
+        <li>сначала проверяем темы на небольшом объёме, потом умножаем то, что работает. Так не тратим силы на темы, которые не заходят</li>
+        <li>в вашей нише ролики-заголовки про клиентов для мастера набирают в 5-20 раз больше обычного: «Как за 2 часа снять контент на месяц» - 86 264 просмотра, «Активна в блоге, а клиентов 0» - 33 035 <span class="src-tag">бьюти-ниша, Instagram</span></li>
+        <li>пробные ролики Instagram показывает только тем, кто на вас ещё не подписан. Это бесплатная проверка темы на холодной аудитории <span class="src-tag">функция Trial Reels</span></li>
+        <li>заголовки не придумываем с нуля: берём из банка заголовков, которые уже набрали охват в бьюти-нише, и переписываем вашими словами</li>
+      </ul></div>
+      <div class="blk ask"><h4>Уточняем внутри проекта</h4><ul>
+        <li>ваши слова о проекте и запретные темы</li>
+        <li>какие темы залетают именно у вас: видно после первых 2 недель пробных роликов</li>
+        <li>почему без каруселей: они окупаются от 100 тыс. просмотров в месяц, а сейчас все ролики вместе дают около 36 тыс. за 16 недель. Вернём, когда вырастет охват</li>
+      </ul></div>
+    </div>
+  </div>
+</article>
+
+<!-- МОДУЛЬ 4 -->
+<article class="mod m-deep">
+  <div class="mh"><span class="mn">4</span><div><h2>Воронки 1 и 2: от ролика до бота</h2><p>за кодовое слово человек получает полезную вещь и попадает в бот</p></div></div>
+  <div class="mb">
+    <div class="flows">
+      <div class="flow" style="background:var(--blush)">
+        <h3>Воронка 1: покупательница · неделя 1</h3>
+        <div class="fstep">Ролик в Instagram №1<small>мастер рядом, траты на красоту, уроки, подарки к Новому году</small></div><div class="down">↓</div>
+        <div class="fstep new">Комментарий «ПОДАРОК»<small>автоответ в директ, кнопка в бот</small></div><div class="down">↓</div>
+        <div class="fstep new">Полезная вещь<small>калькулятор «сколько стоит красота за год» или статья «как найти своего мастера»</small></div><div class="down">↓</div>
+        <div class="fstep">Лист ожидания раннего доступа<small>личная ссылка: позови подругу, подарок обеим</small></div><div class="down">↓</div>
+        <div class="fstep end">Регистрация на эфир и скачивание<small>подарок за регистрацию, за подругу и за скачивание</small></div>
+      </div>
+      <div class="flow" style="background:var(--blush)">
+        <h3>Воронка 2: специалисты · неделя 2</h3>
+        <div class="fstep">Ролик в Instagram №2<small>пустые окна, клиенты без рекламы, места в нише</small></div><div class="down">↓</div>
+        <div class="fstep new">Комментарий «КЛИЕНТЫ»<small>сюда же ведут рассылка по базе и звонок колл-центра</small></div><div class="down">↓</div>
+        <div class="fstep">Бот: кто вы?<small>мастер / эксперт-преподаватель / бренд (бренд сразу к вашему менеджеру)</small></div><div class="down">↓</div>
+        <div class="fstep new">Полезная вещь<small>калькулятор «пустые окна» или статья «где мастеру брать клиентов в 2027»</small></div><div class="down">↓</div>
+        <div class="fstep end">Прогрев 7 дней, эфир, оплата 4 500 или 10 500 ₽<small>ассистент заполняет карточки, мастер получает реферальную ссылку</small></div>
+      </div>
+    </div>
+    <div class="grid4">
+      <div class="blk"><h4>Что делаем</h4><ul>
+        <li>автоответ на кодовое слово, бот, полезная вещь, прогрев сообщениями</li>
+        <li>полезная вещь по умолчанию та, что не зависит от вашего времени: калькуляторы (прототипы уже есть) и статьи, которые пишем мы</li>
+        <li>если у вас или экспертов есть записи уроков, добавляем мастер-класс как второй вариант и сравниваем, что лучше доводит до бота</li>
+      </ul></div>
+      <div class="blk"><h4>Зачем</h4><ul>
+        <li>человек, который взял полезную вещь, остаётся в боте. Ему можно напомнить про эфир, подарок и места</li>
+        <li>без этого шага интерес к ролику пропадает через минуту</li>
+      </ul></div>
+      <div class="blk proof"><h4>Почему сработает</h4><ul>
+        <li>калькулятор мастеру показывает его деньги. Так Airbnb привлекал хозяев жилья: оценка будущего заработка была сильнее любых других доводов <span class="src-tag">Lenny Rachitsky</span></li>
+        <li>в бьюти-нише аккаунты, которые продвигают мастеров, раздают полезные материалы за кодовое слово: это рабочий формат ниши <span class="src-tag">бьюти-ниша, Instagram</span></li>
+        <li>сколько людей откликнется именно у вас, покажут первые недели. Поэтому меряем с первого дня</li>
+      </ul></div>
+      <div class="blk ask"><h4>Уточняем внутри проекта</h4><ul>
+        <li>какие записи уроков, мастер-классов, конференций и эфиров уже есть у вас и у экспертов, и можно ли их использовать</li>
+        <li>какой подарок получает покупательница за регистрацию, за подругу и за скачивание</li>
+        <li>есть ли у мастера личная ссылка в приложении</li>
+      </ul></div>
+    </div>
+  </div>
+</article>
+
+<!-- МОДУЛЬ 5 -->
+<article class="mod m-ink">
+  <div class="mh"><span class="mn">5</span><div><h2>Воронка 3: прогрев на эфир-открытие</h2><p>недели 3-5: регистрация всех сегментов, эфир, 7-10 дней дожима</p></div></div>
+  <div class="mb">
+    <div class="steps">
+      <div><b>Неделя 3</b>тизеры «скоро открытие», через день регистрация. Призовой фонд от брендов</div>
+      <div><b>Неделя 4</b>растим регистрации: подарок за подругу, программа, кто будет в эфире</div>
+      <div class="hot"><b>Неделя 5</b>обратный отсчёт и эфир. Дальше 7-10 дней дожима по записи</div>
+    </div>
+    <div class="grid4">
+      <div class="blk"><h4>Что делаем</h4><ul>
+        <li>один эфир для всех: покупательницы, мастера, эксперты, база, подписчицы</li>
+        <li>в эфире отдельный блок для специалистов с предложением «первых 100»</li>
+        <li>мы делаем вебинарную воронку под ключ: смыслы и сценарий эфира, тексты, презентацию и её оформление, регистрацию, 7 напоминаний, рассылки и дожим</li>
+        <li>вы ведёте эфир на стриминге KRASOTA с рестримом и договариваетесь с брендами о подарках</li>
+      </ul></div>
+      <div class="blk"><h4>Зачем</h4><ul>
+        <li>одно событие собирает всех в одну точку и даёт повод купить именно сейчас</li>
+        <li>мастер на эфире своими глазами видит, сколько клиенток пришло</li>
+      </ul></div>
+      <div class="blk proof"><h4>Почему сработает</h4><ul>
+        <li>события - ваша сильная сторона: на презентацию для амбассадоров вы ждали 10 человек, пришли 48. Ролики про события набирают в 2,2 раза больше остальных <span class="src-tag">ваши слова на созвоне 22.11, ваш Instagram</span></li>
+        <li>Hinge и Tinder собирали первых пользователей вечеринками со входом по скачанному приложению: 2 500 и 300 гостей <span class="src-tag">Lenny Rachitsky, «Find your early adopters»</span></li>
+        <li>после выступления основателя Duolingo в закрытую бету записались больше 300 тыс. человек <span class="src-tag">там же</span></li>
+      </ul></div>
+      <div class="blk ask"><h4>Уточняем внутри проекта</h4><ul>
+        <li>дата эфира: до релиза (открытие предзаписи) или после</li>
+        <li>какие бренды готовы дать подарки</li>
+        <li>цифры вашего прошлого продающего вебинара: сколько было регистраций, пришли, оплатили. Это единственная реальная конверсия в вашей нише</li>
+      </ul></div>
+    </div>
+  </div>
+</article>
+
+<!-- МОДУЛЬ 6 -->
+<article class="mod m-lime">
+  <div class="mh"><span class="mn">6</span><div><h2>Ваша база и колл-центр</h2><p>основная сила первых 100 мест</p></div></div>
+  <div class="mb">
+    <div class="grid4">
+      <div class="blk"><h4>Что делаем</h4><ul>
+        <li>8 рассылок за запуск: подарок специалистам, приглашение на эфир, программа, напоминания, запись, «последние места»</li>
+        <li>скрипт для колл-центра со ссылкой в бот</li>
+        <li>пакет постов для амбассадоров на репост</li>
+      </ul></div>
+      <div class="blk"><h4>Зачем</h4><ul>
+        <li>контент с нуля за 5 недель тысяч покупателей не даст. Первые оплаты придут от тех, кто вас уже знает</li>
+        <li>контент и бот дают базе доказательства и одно место, куда вести каждого</li>
+      </ul></div>
+      <div class="blk proof"><h4>Почему сработает</h4><ul>
+        <li>у вас 3-3,5 тыс. мастеров в Краснодаре и больше 15 тыс. по России, колл-центр делает около 500 звонков в месяц <span class="src-tag">ваши слова на созвоне 22.11</span></li>
+        <li>личные продажи первым продавцам - самый частый приём на старте у известных маркетплейсов, вдвое чаще любого другого <span class="src-tag">исследование Lenny Rachitsky</span></li>
+      </ul></div>
+      <div class="blk ask"><h4>Уточняем внутри проекта</h4><ul>
+        <li>сколько живых контактов в базе и где они лежат</li>
+        <li>сколько оплат даёт колл-центр с 500 звонков</li>
+        <li>кто из амбассадоров готов публиковать</li>
+      </ul></div>
+    </div>
+  </div>
+</article>
+
+<!-- МОДУЛЬ 7 -->
+<article class="mod">
+  <div class="mh"><span class="mn">7</span><div><h2>График по неделям</h2><p>одна новая воронка в неделю, дальше прогрев на эфир</p></div></div>
+  <div class="mb">
+    <div class="legend"><span><i style="background:var(--rose)"></i>подготовка и сборка</span><span><i style="background:var(--pink)"></i>производство и работа</span><span><i style="background:var(--lime)"></i>воронка работает сама</span><span><i style="background:var(--ink)"></i>веха: запуск, регистрация, эфир, отчёт</span></div>
+    <p class="cap">Читается слева направо: сначала подготовка, затем веха запуска, дальше воронка работает. Ресёрч идёт первым и обновляется каждые 2 недели</p>
+    <div class="scroll" style="background:var(--blush)"><table class="gantt w" id="gantt" aria-label="График по неделям"></table></div>
+    <p class="cap">Календарные даты ставим на 3-й день по вашим ответам. Если дата эфира сдвигается позже недели 5, добавляется неделя удержания: все воронки продолжают работать</p>
+    <h3>Каркас контента по неделям</h3>
+    <p class="cap">Сколько роликов в день и какую задачу решает каждый. Темы не придумываем: берём из банка роликов, которые уже залетели в бьюти-нише (банк ниже). На 3-й день выбираем с вами исходники, мы переписываем их под KRASOTA и собираем точный контент-план по дням</p>
+    <div class="weeks" id="weeks"></div>
+    <h3 style="margin-top:8px">Банк тем: откуда взяли и куда ведёт</h3>
+    <p class="cap">Темы взяты из роликов, которые зашли сильнее обычного для своего аккаунта: «×» показывает, во сколько раз. Ролики за последние 3 месяца, выгрузка 22.11.2026. Это гипотезы для теста: на 3-й день выбираем с вами, что берём, заголовки на экране собираем отдельно. Товарные темы не берём, товары на старте не подключаем</p>
+    <div class="scroll" style="padding:0"><table class="prod" style="min-width:820px">
+      <thead><tr><th>Тема для KRASOTA</th><th>Куда ведёт</th><th>Недели</th><th>Откуда взяли</th></tr></thead>
+      <tbody>
+        <tr><td colspan="4" style="background:var(--blush-2);font-weight:800">Instagram №1 · покупательницы</td></tr>
+        <tr><td>«Девочки из Краснодара, где вы нашли своего мастера?»</td><td>воронка 1, лист ожидания</td><td>1-2</td><td>@valeriadmitrievnaaa «помогите найти своего мастера маникюра» - 3,7×, 112 комментариев</td></tr>
+        <tr><td>«Как понять, что косметолог настоящий: город обсуждает»</td><td>воронка 1, отзывы мастерам</td><td>2</td><td>@valeriadmitrievnaaa, обсуждение в городе - 2,8×</td></tr>
+        <tr><td>«Мы разучились видеть настоящую кожу»</td><td>воронка 1, уроки экспертов</td><td>1-2</td><td>@facefit.and.beauty - 2,6×</td></tr>
+        <tr><td>«Уход без фанатизма: что реально нужно коже»</td><td>воронка 1, уроки экспертов</td><td>2-3</td><td>@facefit.and.beauty - 2,9×</td></tr>
+        <tr><td>Женщины и события KRASOTA: девичники, воркшопы, встречи</td><td>воронка 3, эфир</td><td>3-5</td><td>ваш Instagram: события в 2,2 раза сильнее роликов «о приложении»</td></tr>
+        <tr><td>Реалити основательницы: как строится приложение для женщин</td><td>охват, эфир</td><td>1, 3</td><td>@manicure.rozhkova, реалити студии - 3,3×; ваши ролики «ваша история» собирают больше всего комментариев</td></tr>
+        <tr><td>Узнаваемые сцены «клиентка и мастер» с юмором</td><td>охват</td><td>1-5</td><td>@lashmaster_govorit, 104 тыс. подписчиков - 2,8×</td></tr>
+        <tr><td colspan="4" style="background:var(--blush-2);font-weight:800">Instagram №2 · специалисты</td></tr>
+        <tr><td>«Активна в блоге, а клиентов 0»</td><td>воронка 2, калькулятор</td><td>1-2</td><td>аккаунт о продвижении бьюти-мастеров - 8×</td></tr>
+        <tr><td>«У меня не было клиентов, и я это изменила»</td><td>воронка 2</td><td>2</td><td>аккаунт о продвижении бьюти-мастеров - 9,2×</td></tr>
+        <tr><td>«Нет времени снимать контент: где брать клиентов без блога»</td><td>воронка 2</td><td>1-2</td><td>аккаунт о продвижении бьюти-мастеров, «контент на месяц за 2 часа» - 21×</td></tr>
+        <tr><td>«Переехала в другой город: как собрать клиентов с нуля»</td><td>воронка 2, клиентки в твоём городе</td><td>2-3</td><td>аккаунт о продвижении бьюти-мастеров - 2,3×</td></tr>
+        <tr><td>«Туториалы и до/после больше не продают: что продаёт сейчас»</td><td>воронка 2</td><td>2-3</td><td>аккаунт о продвижении бьюти-мастеров - 3,4×</td></tr>
+        <tr><td>Местная повестка: что обсуждают мастера Краснодара</td><td>охват, эфир</td><td>3-4</td><td>@valeriadmitrievnaaa, продвигает бьюти-мастеров, местные темы - 2,2-8,4×</td></tr>
+        <tr><td>Узнаваемые сцены из жизни мастера с юмором</td><td>охват</td><td>1-5</td><td>@lashmaster_govorit - 2,8×</td></tr>
+        <tr><td>Реалити мастера: «первые клиентки пришли из приложения»</td><td>дожим</td><td>после эфира</td><td>@manicure.rozhkova, реалити студии - 3,3×</td></tr>
+      </tbody>
+    </table></div>
+    <div class="insight"><span class="ic">!</span><p>Сильнее всего заходит <b>местное и личное</b>: «помогите найти мастера в моём городе», обсуждения в городе, реалити. Это ровно обещание KRASOTA: мастер рядом. У мастеров заходит <b>боль «нет клиентов»</b>, а не советы по технике</p></div>
+  </div>
+</article>
+
+<!-- МОДУЛЬ 8 -->
+<article class="mod m-deep">
+  <div class="mh"><span class="mn">8</span><div><h2>Цифры и аналитика</h2><p>что прогнозируем, что меряем, как перестраиваем</p></div></div>
+  <div class="mb">
+    <div class="two">
+      <div class="funnel">
+        <h3>Каждый Instagram, в неделю</h3>
+        <div class="fr h"><span>шаг</span><span class="s">осторожно</span><span class="s">рабочий</span></div>
+        <div class="fr"><span>Просмотры 21 ролика в ленте<small>с недели 3, 1 000 и 2 000 на ролик, пробные сверху</small></span><b>21 000</b><b>42 000</b></div>
+        <div class="fr"><span>Кодовые слова</span><b>замер</b><b>замер</b></div>
+        <div class="fr"><span>Дошли до бота</span><b>замер</b><b>замер</b></div>
+        <div class="fr"><span>Регистрации на эфир</span><b>замер</b><b>замер</b></div>
+        <div class="fr"><span>Оплаты и скачивания</span><b>замер</b><b>замер</b></div>
+      </div>
+      <div class="panel" style="background:var(--blush)"><h3>Что считаем каждый день</h3><ul>
+        <li>Instagram: просмотры, досмотры, кодовые слова, подписки по каждому ролику</li>
+        <li>пробные ролики: какие заголовки залетели</li>
+        <li>Telegram: просмотры, подписчики, переходы в бот</li>
+        <li>боты: дошли, взяли полезную вещь, лист ожидания, подруги</li>
+        <li>база и колл-центр: отправлено, открыто, перешли, звонки</li>
+        <li>эфир: регистрации, доходимость, оплаты, скачивания</li>
+        <li>итог: занятые места из 100 и откуда пришёл каждый</li>
+      </ul></div>
+    </div>
+    <div class="panel" style="background:var(--blush)">
+      <h3>Ориентир: сколько людей нужно на эфире, чтобы занять 100 мест по 4 500 ₽</h3>
+      <p class="cap">Обратный расчёт. Доля покупок с эфира в вашей нише неизвестна, поэтому три сценария. Доходимость до эфира 30% - осторожная норма по данным GetCourse Медиа</p>
+      <div class="scroll" style="padding:0"><table class="prod" style="min-width:560px">
+        <thead><tr><th>Покупают с эфира</th><th>Нужно на эфире</th><th>Нужно регистраций</th></tr></thead>
+        <tbody>
+          <tr><td>10%</td><td class="n">1 000</td><td class="n">3 334</td></tr>
+          <tr><td>5%</td><td class="n">2 000</td><td class="n">6 667</td></tr>
+          <tr><td>3%</td><td class="n">3 334</td><td class="n">11 112</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="2">Выручка со 100 мест по 4 500 ₽</td><td class="n">450 000 ₽</td></tr></tfoot>
+      </table></div>
+      <h3 style="margin-top:8px">100 мест - только первая ступень</h3>
+      <p class="cap">Акция «первые 100» касается тарифа «Услуги». Эксперты-преподаватели и все, кто придёт после первых 100, платят по другим тарифам. Цены с вашего сайта, итог по каждому тарифу считаем по факту запуска</p>
+      <div class="scroll" style="padding:0"><table class="prod" style="min-width:560px">
+        <thead><tr><th>Тариф</th><th>Цена на сайте</th><th>Каждые 10 оплат</th></tr></thead>
+        <tbody>
+          <tr><td>«Услуги», первые 100 мест</td><td>4 500 ₽ за год</td><td class="n">45 000 ₽</td></tr>
+          <tr><td>«Услуги» после первых 100</td><td>18 000 ₽ за год (зачёркнутая цена)</td><td class="n">180 000 ₽</td></tr>
+          <tr><td>«Обучение» для экспертов</td><td>10 500 ₽ (вместо 42 000 ₽)</td><td class="n">105 000 ₽</td></tr>
+          <tr><td>«Товары» для брендов</td><td>25 000 ₽ + 5% с продаж</td><td class="n">250 000 ₽ + %</td></tr>
+        </tbody>
+      </table></div>
+      <p class="cap">Какая цена «Услуг» действует после первых 100 и до какого срока идёт акция «Обучения», уточняем у вас</p>
+      <p class="cap">Ваша база 18-18,5 тыс. контактов. Регистрации дают база, колл-центр и амбассадоры, контент добавляет новых людей. Часть мест могут занять эксперты по 10 500 ₽, тогда для той же выручки покупателей нужно меньше. Реальную долю покупок покажут цифры вашего прошлого вебинара, по ним уточним расчёт</p>
+    </div>
+    <div class="grid4">
+      <div class="blk"><h4>Что делаем</h4><ul>
+        <li>сквозная аналитика по каждому каналу</li>
+        <li>отчёт в конце каждой недели в одном рабочем чате</li>
+        <li>ресёрч ниши и конкурентов каждые 2 недели</li>
+      </ul></div>
+      <div class="blk"><h4>Зачем</h4><ul>
+        <li>видеть, откуда приходят деньги, и усиливать именно это</li>
+        <li>что не работает, убираем через неделю, а не через месяц</li>
+      </ul></div>
+      <div class="blk proof"><h4>Почему прогноз только на просмотры</h4><ul>
+        <li>просмотры считаем по вашим же роликам: типичный 951, про события 2 012 <span class="src-tag">ваш Instagram</span></li>
+        <li>открытых данных о том, сколько людей в бьюти-маркетплейсе пишут кодовое слово и покупают, нет. Честнее замерить, чем угадать</li>
+      </ul></div>
+      <div class="blk ask"><h4>Уточняем внутри проекта</h4><ul>
+        <li>цифры прошлого вебинара и колл-центра: по ним первый прогноз продаж</li>
+        <li>доступ к статистике приложения после релиза</li>
+      </ul></div>
+    </div>
+  </div>
+</article>
+
+<!-- МОДУЛЬ 9 -->
+<article class="mod m-ink">
+  <div class="mh"><span class="mn">9</span><div><h2>Стоимость запуска</h2><p>запуск под ключ к дате эфира</p></div></div>
+  <div class="mb">
+    <div class="price">
+      <div class="pbig">
+        <span>Запуск: до 5 недель до эфира + дожим 7-10 дней. Оплата на старте</span>
+        <span style="font-size:13px;opacity:.85">Стоимость считается по целевым аудиториям, а не по числу аккаунтов. Две аудитории и три воронки нужны при любом наборе площадок. Если Instagram один, ведём обе аудитории в нём, объём тот же. Telegram заводим с нуля как часть запуска</span>
+        <span class="p">190 000 ₽</span>
+        <ul>
+          <li>система под KRASOTA: ваш проект, аудитории и цифры загружены в нашу систему из 239 инструментов</li>
+          <li>исследование аудитории, конкурентов и кейсов запуска маркетплейсов</li>
+          <li>ролики в каждый Instagram с плавным ростом: 1, затем 2, с недели 3 по 3 в день, пробные ролики с недели 3, пост в Telegram каждый день, кросспост в VK и YouTube</li>
+          <li>три воронки, боты, калькуляторы и статьи</li>
+          <li>вебинарная воронка под ключ: смыслы, сценарий, презентация и оформление, регистрация, напоминания, дожим</li>
+          <li>работа с базой: 8 рассылок, скрипт колл-центра, пакет для амбассадоров</li>
+          <li>аналитика по каждому каналу, отчёт и перестройка каждую неделю</li>
+        </ul>
+      </div>
+      <div class="tiers">
+                <div class="tier"><span><b style="font-size:15px;color:var(--ink)">Если дата эфира сдвигается</b><br>позже недели 5 из-за модерации или готовности приложения: все воронки продолжают работать</span><b>25 000 ₽/нед</b></div>
+        <div class="tier"><span><b style="font-size:15px;color:var(--ink)">После запуска</b><br>ведём дальше: контент, воронки, тесты, отчёты. Минимум: запуск + 1 месяц ведения</span><b>95 000 ₽/мес</b></div>
+        <div class="tier"><span><b style="font-size:15px;color:var(--ink)">Бренды и новые направления</b><br>клуб креаторов, экспертный контент для подписки</span><b>+95 000 ₽/мес</b></div>
+      </div>
+    </div>
+    <div class="panel" style="background:var(--blush)">
+      <h3>Сколько стоил бы месяц такой работы по отдельности</h3>
+      <div class="scroll" style="padding:0"><table class="prod" style="min-width:640px">
+        <thead><tr><th>Что</th><th>Цена на рынке</th><th>Итого</th></tr></thead>
+        <tbody>
+          <tr><td>Стратегия с исследованием аудитории и конкурентов</td><td>от 160 000 ₽ в агентстве</td><td class="n">160 000 ₽</td></tr>
+          <tr><td>Ролики под ключ: идеи, сценарии, заголовки, описания, монтаж, публикация</td><td>полный цикл рилс на подряде от 150 000 ₽ в месяц</td><td class="n">150 000 ₽</td></tr>
+          <tr><td>Telegram-канал: пост каждый день</td><td>ведение от 30 000 ₽ в месяц</td><td class="n">30 000 ₽</td></tr>
+          <tr><td>Автоворонки для двух аудиторий</td><td>бот в агентстве от 80 000 ₽ за каждую</td><td class="n">160 000 ₽</td></tr>
+          <tr><td>Вебинарная воронка под ключ: смыслы, сценарий эфира, тексты, презентация и оформление, регистрация, напоминания, дожим</td><td>смысловая вебинарная воронка с прописанным вебинаром на рынке от 150 000 ₽</td><td class="n">150 000 ₽</td></tr>
+          <tr><td>Калькуляторы, 2</td><td>от 14 900 ₽</td><td class="n">29 800 ₽</td></tr>
+          <tr><td>Пробные ролики, база, аналитика, ресёрч</td><td>в расчёт не берём</td><td class="n">0 ₽</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="2">По отдельности за месяц, минимум</td><td class="n">679 800 ₽</td></tr><tr><td colspan="2">У нас весь запуск, 5-6 недель</td><td class="n">190 000 ₽</td></tr></tfoot>
+      </table></div>
+      <p class="cap">И это пять разных подрядчиков. У нас одно окно и один отчёт</p>
+    </div>
+    <div class="two">
+      <div class="blk"><h4>Почему мы можем так</h4><ul>
+        <li>239 наших инструментов: движки, плагины и методики для стратегии, роликов, текстов, воронок и аналитики</li>
+        <li>система управляет разными нейросетями: на тексты своя, на видео своя, на аватары и мультики свои. Под каждую задачу берём лучшую на сегодня, если одна отстала, переключаемся</li>
+      </ul></div>
+      <div class="blk proof"><h4>Что остаётся у вас</h4><ul>
+        <li>все наработки файлами: стратегия, тексты, сценарии, боты, калькуляторы, отчёты</li>
+        <li>система, настроенная под KRASOTA</li>
+        <li>работаем и выдаём результат мы, вам вникать в систему не нужно</li>
+      </ul></div>
+    </div>
+  </div>
+</article>
+
+<section>
+  <span class="kicker">От вас</span>
+  <h2>Что нужно, чтобы стартовать</h2>
+  <div class="need">
+    <div class="nd"><span class="i">1</span><span>Ответы на наши вопросы в первые 2-3 дня<small>спрашиваем много, делаем максимально без вас. Контент в это время уже выходит. На 3-й день приносим уточнённый план</small></span></div>
+    <div class="nd"><span class="i">2</span><span>Доступы к двум Instagram и сайту<small>для публикаций и автоответов</small></span></div>
+    <div class="nd"><span class="i">3</span><span>База специалистов<small>в каком виде есть и сколько живых контактов</small></span></div>
+    <div class="nd"><span class="i">4</span><span>Подарки<small>для покупательниц за регистрацию, подругу и скачивание. Подарки от брендов для эфира</small></span></div>
+    <div class="nd"><span class="i">5</span><span>Записи, которые уже есть<small>уроки, мастер-классы, конференции, эфиры у вас и у экспертов, старый продающий вебинар</small></span></div>
+    <div class="nd"><span class="i">6</span><span>Дата релиза, как только станет понятна<small>по ней ставим дату эфира с запасом</small></span></div>
+    <div class="nd"><span class="i">7</span><span>1-2 часа в неделю на «да» по готовому<small>плюс эфир-открытие</small></span></div>
+  </div>
+</section>
+
+<section class="src">
+  <span>Данные: Instagram @krasotamarket.ru, @krasota.market.club, @alla__frolova, @beauty_rooms_krd на 21.11.2026. «Типичный ролик» - медиана просмотров 29 публикаций с 22.07 по 13.11. Тарифы с сайта krasota-market.ru. Пример ниши: @bahmur.beauty, 8 047 подписчиков, выгрузка 21.11.2026</span>
+  <span>Кейсы маркетплейсов: Lenny Rachitsky, «28 ways to grow supply in a marketplace» (andrewchen.com/grow-marketplace-supply) и «Find your early adopters» (lennysnewsletter.com/p/consumer-business-find-first-users); листы ожидания Robinhood и Monzo - duostrategyla.com/ideas/how-to-build-a-waitlist-from-zero</span>
+  <span>Доходимость до эфира 30-40% - GetCourse Медиа (getcourse.ru/magazine/uderzghaniye-auditorii-na-vebinare)</span>
+  <span>Рыночные цены: SMM-стратегия от 160 000 ₽ - kokoc.com/smm/razrabotka-smm-strategii; полный цикл рилс на подряде 150 000-390 000 ₽ в месяц - sostav.ru/blogs/295126/113192 (07.10.2026); ведение аккаунта 30 000-70 000 ₽ в месяц - sostav.ru/blogs/275100/73534; бот в агентстве 80 000-250 000 ₽, сборка на конструкторе 20 000-60 000 ₽ - bothelp.io/ru/blog/skolko-stoit-razrabotka-chat-bota; калькулятор - наш прайс 14 900-19 900 ₽</span>
+</section>
+
+</div>
+
+<script>
+(function(){
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  var cols=['Неделя 1','Неделя 2','Неделя 3','Неделя 4','Неделя 5','После эфира'];
+  var sub=['+ воронка 1','+ воронка 2','+ воронка 3','прогрев на эфир','прогрев и эфир','дожим 7-10 дней'];
+  var rows=[
+    ['Ресёрч рынка, аудитории и конкурентов',['prep:старт',null,'prep:обновление',null,'prep:обновление',null]],
+    ['Вопросы к вам, доступы, база',['prep:дни 1-3',null,null,null,null,null]],
+    ['Уточнённый план: даты, каналы, контент-план',['ms:день 3',null,null,null,null,null]],
+    ['Воронка 1: покупательницы',['ms:запуск','live:работает','live:работает','live:работает','live:работает','live:работает']],
+    ['Воронка 2: специалисты',['prep:сборка','ms:запуск','live:работает','live:работает','live:работает','live:работает']],
+    ['Воронка 3: прогрев на эфир',[null,'prep:сборка','ms:регистрация','work:прогрев','ms:эфир','work:дожим']],
+    ['Instagram №1: покупательницы',['work:1 в день','work:2 в день','work:3 в день','work:3 в день','work:3 в день','work:3 в день']],
+    ['Instagram №2: специалисты',['work:1 в день','work:2 в день','work:3 в день','work:3 в день','work:3 в день','work:3 в день']],
+    ['Пробные ролики',[null,null,'work:1-2 в день','work:1-2 в день','work:1-2 в день','work:1-2 в день']],
+    ['Telegram-канал',['work:каждый день','work:каждый день','work:каждый день','work:каждый день','work:каждый день','work:каждый день']],
+    ['База: рассылки и колл-центр',['prep:скрипт','work:рассылка 1','work:рассылка 2','work:рассылка 3','work:рассылки 4-5','work:рассылки 6-8']],
+    ['Пакет для амбассадоров',[null,null,'ms:пакет 1',null,'ms:пакет 2',null]],
+    ['Сценарий эфира, подарки от брендов',[null,null,'prep:подготовка','prep:подготовка',null,null]],
+    ['Отзывы мастерам и рефералка',[null,null,null,null,null,'work:запуск']],
+    ['Отчёт вам и перестройка плана',['ms:отчёт','ms:отчёт','ms:отчёт','ms:отчёт','ms:отчёт','ms:отчёт']]
+  ];
+  var h='<thead><tr><th class="row">Поток работ</th>';
+  cols.forEach(function(c,i){h+='<th>'+c+'<br><span style="font-weight:500">'+sub[i]+'</span></th>';});
+  h+='</tr></thead><tbody>';
+  rows.forEach(function(r){
+    h+='<tr><th class="row">'+r[0]+'</th>';
+    r[1].forEach(function(c){
+      if(!c){h+='<td></td>';return;}
+      var p=c.split(':');h+='<td class="c-'+p[0]+'"><span>'+(p[1]||'')+'</span></td>';
+    });
+    h+='</tr>';
+  });
+  document.getElementById('gantt').innerHTML=h+'</tbody>';
+
+  var TG={oh:['ОХВАТ','pill'],lm:['ЛИД-МАГНИТ','pill'],ev:['ЭФИР','pill k'],sale:['ПРОДАЖА','pill c']};
+  var WK=[
+    {h:'Неделя 1',s:'запускаем воронку 1: покупательницы',goal:'Контент с первого дня, вопросы к вам, на 3-й день уточнённый план. Аккаунт специалистов пока набирает охват',mixB:[['lm',1]],mixM:[['oh',1]],topB:['Сколько стоит твоя красота за год','Почему за ту же косметику платишь больше: комиссия до 40%','Мастер рядом за 2 минуты','Позови подругу: подарок обеим'],topM:['Мастер работает на себя: клиентов теперь ищет сама','Активна в блоге, а клиентов 0','Пустые окна в декабре: сколько это денег','Эфир сразу в 10 соцсетей: как это работает'],base:['бот покупательниц: полезная вещь и лист ожидания','готовим воронку 2 и скрипт колл-центра'],ev:0},
+    {h:'Неделя 2',s:'запускаем воронку 2: специалисты',goal:'Мастера и эксперты-преподаватели получают калькулятор или статью. Воронка 1 работает сама, лист ожидания растёт',mixB:[['lm',2]],mixM:[['lm',2]],topB:['Ранний доступ: как попасть в первые','Сколько женщин уже ждут приложение: живая цифра','Свой мастер маникюра в каждом районе','Витрина подарков: новогодние подарки'],topM:['Где мастеру брать клиентов в 2027','Сколько денег уходит в пустые окна: калькулятор','Боишься, что заберут клиенток? Места в нише ограничены','Эксперту: группы по всей России без блога-миллионника'],base:['рассылка по базе №1: подарок специалистам, ссылка в бот','колл-центр звонит по базе со ссылкой в бот'],ev:0},
+    {h:'Неделя 3',s:'запускаем воронку 3: прогрев на эфир',goal:'Тизеры и регистрация на эфир. Дальше все три воронки идут параллельно. Подключаем пробные ролики',mixB:[['ev',1],['lm',2]],mixM:[['ev',1],['lm',2]],topB:['Скоро открытие KRASOTA: подарки всем, кто придёт','Регистрация открыта: подарок за регистрацию','Мастер, эфир и косметика в одном приложении','Хватит искать мастера по Instagram'],topM:['Скоро открытие: специалисты увидят приложение первыми','Осталось N мест из 100: живая цифра','Почему первые 3 отзыва решают всё','Что входит в 10 500 ₽ для эксперта'],base:['рассылка №2: приглашение на эфир и подарок','пакет для амбассадоров','подарки от брендов для призового фонда'],ev:0},
+    {h:'Неделя 4',s:'прогрев на эфир',goal:'Растим регистрации. Специалисты занимают места, покупательницы зовут подруг',mixB:[['ev',2],['lm',1]],mixM:[['ev',2],['lm',1]],topB:['Что покажем на открытии','Призы открытия: что разыгрываем','Позови подругу на эфир: подарок обеим','Кто будет в эфире'],topM:['На эфире: сколько клиенток уже ждёт в твоём городе','Что получат специалисты на эфире','Где тебя найдут клиентки: разберём в эфире','Клиентки ждут: витрина готова?'],base:['рассылка №3: программа и подарки','колл-центр звонит зарегистрированным'],ev:0},
+    {h:'Неделя 5',s:'обратный отсчёт и эфир',goal:'Доводим всех до эфира. Все воронки сходятся в одну точку',mixB:[['ev',3]],mixM:[['ev',3]],topB:['4, 3, 2 дня до открытия','Завтра открытие: как подключиться','Сегодня открытие KRASOTA','Через час эфир'],topM:['Последние места: решите на эфире','Как подготовиться к эфиру мастеру','Сегодня открытие','Места для первых 100: условия после эфира'],base:['рассылки №4 и №5: за 2 дня, в день эфира, за час','ЭФИР-ОТКРЫТИЕ'],ev:1},
+    {h:'После эфира',s:'дожим 7-10 дней',goal:'Запись эфира, предложение, отзывы и рекомендации',mixB:[['sale',2],['lm',1]],mixM:[['sale',2],['lm',1]],topB:['Запись открытия','Подарок за скачивание ещё ждёт','Подписка на уроки экспертов: что внутри','Мастер рядом: поиск по району'],topM:['Запись открытия для специалистов','Сколько мест заняли за вечер','Первая заявка через приложение: история мастера','Пригласи коллегу: процент с её заказов'],base:['рассылки №6-8: запись, сколько мест осталось, последние места'],ev:0}
+  ];
+  var g='';
+  WK.forEach(function(w){
+    var HW={oh:'знакомит с проектом, без кодового слова',lm:'с подарком за кодовое слово, ведёт в бот',ev:'зовёт на эфир-открытие',sale:'дожимает после эфира: запись и предложение'};
+    function mix(m){var n=0;m.forEach(function(x){n+=x[1];});return '<p><b>В день '+n+' '+(n===1?'ролик':'ролика')+':</b></p><ul>'+m.map(function(x){return '<li>'+x[1]+' '+HW[x[0]]+'</li>';}).join('')+'</ul>';}
+    function ul(a){return '<ul>'+a.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';}
+    g+='<div class="wk'+(w.ev?' ev':'')+'"><div class="hd"><b>'+w.h+'</b><span>'+esc(w.s)+'</span></div><div class="bd">'
+      +'<p>'+esc(w.goal)+'</p>'
+      +'<h4>Instagram №1 · покупательницы</h4>'+mix(w.mixB)
+      +'<h4>Instagram №2 · специалисты</h4>'+mix(w.mixM)
+      +'<h4>Telegram, боты, база</h4>'+ul(['пост в канале каждый день'].concat(w.base))
+      +'</div></div>';
+  });
+  document.getElementById('weeks').innerHTML=g;
+})();
+</script>
+
+</body>
+</html>
